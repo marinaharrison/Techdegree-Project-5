@@ -3,8 +3,7 @@
 
 //DOM VARIABLES
 const gallery = document.getElementById('gallery');
-const closeButton = document.getElementById('modal-close-btn');
-const modalContainer = document.querySelector('.modal-container');
+
 
 //FETCH FUNCTIONS
 fetch('https://randomuser.me/api/?results=12&nat=us')
@@ -32,7 +31,7 @@ function profileHTML(data) {
               <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
               </div>
               </div>`;
-      ////method to concatenate to the DOM provided on Treehouse        
+//method to concatenate to the DOM provided on Treehouse        
       gallery.insertAdjacentHTML('beforeend', person);
     });
   }
@@ -68,6 +67,15 @@ function modalHTML(personData){
 
 //Method to concatenate to the DOM provided on Treehouse
 gallery.insertAdjacentHTML('beforeend', modal)
+
+//Event listener to close the modal window
+const closeButton = document.getElementById('modal-close-btn');
+const modalContainer = document.querySelector('.modal-container');
+
+closeButton.addEventListener('click', e => {
+    modalContainer.style.display = 'none';
+    modalContainer.remove();
+})
 }
 
 //MODAL FUNCTION
@@ -80,9 +88,3 @@ function clickModal(modalData){
         })
     }
 }
-
-//**Remove the modal button */
-closeButton.addEventListener('click', e => {
-    modalContainer.style.display = 'none';
-    modalContainer.remove();
-})
