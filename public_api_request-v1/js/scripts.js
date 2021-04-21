@@ -75,7 +75,7 @@ const modalContainer = document.querySelector('.modal-container');
 closeButton.addEventListener('click', e => {
     modalContainer.style.display = 'none';
     modalContainer.remove();
-})
+    })
 }
 
 //MODAL FUNCTION
