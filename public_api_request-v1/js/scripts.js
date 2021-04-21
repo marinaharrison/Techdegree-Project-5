@@ -1,7 +1,7 @@
 //****TECHDEGREE PROJECT 5****/
 //Author: Marina Harrison
 
-//variables
+//DOM VARIABLES
 const gallery = document.getElementById('gallery');
 const closeButton = document.getElementById('modal-close-btn');
 const modalContainer = document.querySelector('.modal-container');
@@ -17,9 +17,11 @@ fetch('https://randomuser.me/api/?results=12&nat=us')
 
 
 //HTML FUNCTIONS
-//***Below is the HTML for the individual profiles**/
+//***Below is the HTML for the individual profile cards**/
 function profileHTML(data) {
     data.map(person => {
+
+//Using a template literal with the provided markup in index.html to create the DOM elements for the Gallery        
       person = `<div class="card">
             <div class="card-img-container">
               <img class="card-img" src="${person.picture.medium}" alt="profile picture">
@@ -35,34 +37,37 @@ function profileHTML(data) {
     });
   }
 
+
 //CREATE MODAL
 //**Below is the HTML for the modal**/
 function modalHTML(personData){
+
+//Below is the reformat for the DOB object in the profiles array
+  let date = new Date(personData.dob.date);
+  let month = date.getMonth();
+  let day = date.getDay();
+  let year = date.getFullYear();
+  const dobFormat = `${month}/${day}/${year}`;   
     
-  //Using a template literal with the provided markup in index.html to create the DOM elements 
+//Using a template literal with the provided markup in index.html to create the DOM elements for the modal cards
    modal = `<div class="modal-container">
     <div class="modal">
         <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
         <div class="modal-info-container">
             <img class="modal-img" src="${personData.picture.large}" alt="profile picture">
-            <h3 id="name" class="modal-name cap">${personData.name.first}</h3>
+            <h3 id="name" class="modal-name cap">${personData.name.first} ${personData.name.last}</h3>
             <p class="modal-text">${personData.email}</p>
             <p class="modal-text cap">${personData.location.city}</p>
             <hr>
-            <p class="modal-text">(555) 555-5555</p>
-            <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-            <p class="modal-text">Birthday: 10/21/2015</p>
+            <p class="modal-text">${personData.phone}</p>
+            <p class="modal-text">${personData.location.street.number} ${personData.location.street.name}, ${personData.location.city}, ${personData.location.state} ${personData.location.postcode}</p>
+            <p class="modal-text">Birthday: ${dobFormat}</p>
         </div>
     </div>
 </div>`;
 
-//method to concatenate to the DOM provided on Treehouse
+//Method to concatenate to the DOM provided on Treehouse
 gallery.insertAdjacentHTML('beforeend', modal)
-
-//**Remove the modal button */
-closeButton.addEventListener('click', e => {
-    modalContainer.remove();
-})
 }
 
 //MODAL FUNCTION
@@ -78,5 +83,6 @@ function clickModal(modalData){
 
 //**Remove the modal button */
 closeButton.addEventListener('click', e => {
+    modalContainer.style.display = 'none';
     modalContainer.remove();
 })
